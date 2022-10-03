@@ -1,0 +1,133 @@
+:root {
+  --bg-dark: #171717;
+  --secondary-color: #1f2937;
+  --text-color: white;
+  --border-color: rgb(47, 52, 54);
+}
+
+body {
+  font-size: 1.3rem;
+  background-color: var(--bg-dark);
+  color: var(--text-color);
+}
+/* CV APP LAYOUT */
+.CV {
+  display: flex;
+  width: 100vw;
+  justify-content: space-between;
+  gap: 10rem;
+  padding: 1rem 1.5rem;
+}
+
+.CV > * {
+  flex: 1;
+}
+
+/* CV FORM */
+.cv-form {
+  /* border: 2px solid var(--border-color); */
+  border-radius: 0.2rem;
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1.15rem;
+}
+
+.cv-form > fieldset {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+.cv-form legend {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.inputWrapper {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.inputWrapper > * {
+  max-width: 50%;
+}
+
+input {
+  border: none;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border-radius: 1rem;
+  padding: 0.4rem;
+  min-width: 50%;
+}
+
+/* CV RENDERED INFO */
+
+.cv-info {
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid var(--border-color); */
+}
+
+hr {
+  border: 1px solid var(--border-color);
+}
+
+.cv-info > * {
+  flex: 1;
+}
+
+/* Personal Info */
+
+.personalInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.personalInfo > .bottom {
+  display: flex;
+  gap: 5rem;
+}
+
+/* Experience Info */
+.experiences,
+.educations {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.experience,
+.education {
+  display: flex;
+  font-size: large;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+
+.experience .company,
+.education .school {
+  font-weight: bold;
+}
+
+/* Styles for elements */
+.btn {
+  cursor: pointer;
+  border: none;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+
+  padding: 10px;
+  margin: 10px;
+  border-radius: 1rem;
+  height: 4rem;
+  width: 20rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
