@@ -3,46 +3,61 @@ import Input from "../Utils/Input";
 
 class Experience extends Component {
   render() {
-    const { company, position, jobDesc, startDate, endDate } = this.props.experience;
+    const { id, company, position, jobDesc, startDate, endDate } = this.props.experience;
+    const { deleteExperience } = this.props;
     return (
-      <fieldset>
-        <legend>Job Experience</legend>
+      <div className="experience-form">
         <Input
           id="company"
           label="Company:"
           value={company}
-          handleChange={this.props.handleChange}
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
         />
         <Input
           id="position"
           label="Position: :"
           value={position}
-          handleChange={this.props.handleChange}
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
         />
         <Input
           id="jobDesc"
           label="Job Desc:"
           value={jobDesc}
-          handleChange={this.props.handleChange}
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
         />
         <Input
           id="startDate"
           label="Start Date:"
           type="date"
-          handleChange={this.props.handleChange}
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
           value={startDate}
         />
         <Input
           id="endDate"
           label="End Date:"
           type="date"
-          handleChange={this.props.handleChange}
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
           value={endDate}
         />
-        <button type="button" className="btn" onClick={this.props.addExperience}>
-          Add Experience
+        <button
+          type="button "
+          className="btn deleteBtn"
+          onClick={() => {
+            deleteExperience(id);
+          }}>
+          Delete
         </button>
-      </fieldset>
+      </div>
     );
   }
 }

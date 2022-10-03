@@ -3,30 +3,53 @@ import Input from "../Utils/Input";
 
 class Education extends Component {
   render() {
-    const { school, degree, startDate, endDate } = this.props.education;
+    const { id, school, degree, startDate, endDate } = this.props.education;
+    const { deleteEducation } = this.props;
     return (
-      <fieldset>
-        <legend>Education</legend>
-        <Input id="school" label="School:" handleChange={this.props.handleChange} value={school} />
-        <Input id="degree" label="Degree:" handleChange={this.props.handleChange} value={degree} />
+      <div className="education-form">
+        <Input
+          id="school"
+          label="School:"
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
+          value={school}
+        />
+        <Input
+          id="degree"
+          label="Degree:"
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
+          value={degree}
+        />
         <Input
           id="startDate"
           label="Start Date:"
           type="date"
-          handleChange={this.props.handleChange}
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
           value={startDate}
         />
         <Input
           id="endDate"
           label="End Date:"
           type="date"
-          handleChange={this.props.handleChange}
+          handleChange={(e) => {
+            this.props.handleChange(e, id);
+          }}
           value={endDate}
         />
-        <button type="button" className="btn" onClick={this.props.addEducation}>
-          Add Education
+        <button
+          type="button "
+          className="btn deleteBtn"
+          onClick={() => {
+            deleteEducation(id);
+          }}>
+          Delete
         </button>
-      </fieldset>
+      </div>
     );
   }
 }
