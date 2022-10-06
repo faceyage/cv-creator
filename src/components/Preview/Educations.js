@@ -3,6 +3,7 @@ function Educations(props) {
 
   return (
     <div className="educations">
+      <div className="title">Education</div>
       <hr />
       {educations.map((education, index) => {
         const { school, degree, startDate, endDate } = education;

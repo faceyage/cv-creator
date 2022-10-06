@@ -2,6 +2,7 @@ function Experience(props) {
   const { experiences } = props;
   return (
     <div className="experiences">
+      <div className="title">Experience</div>
       <hr />
       {experiences.map((experience, index) => {
         const { company, position, jobDesc, startDate, endDate } = experience;
