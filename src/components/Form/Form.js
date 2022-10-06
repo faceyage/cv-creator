@@ -1,42 +1,46 @@
-import React, { Component } from "react";
-import CV from "../CV";
+import React, { useState, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+
+import GeneralPreview from "../Preview/GeneralPreview";
 import Personal from "./Fieldsets/Personal";
 import Education from "./Fieldsets/Education";
 import Experience from "./Fieldsets/Experience";
 import uniqid from "uniqid";
 
-class Form extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      experiences: [
-        {
-          id: uniqid(),
-          company: "Microsoft",
-          position: "Senior Software Engineer",
-          jobDesc: "Built large scalable projects for over 10million users.",
-          startDate: "2010-01-01",
-          endDate: "2015-01-01",
-        },
-      ],
-      educations: [
-        {
-          school: "University of Oxford",
-          degree: "Computer Science",
-          startDate: "2005-01-01",
-          endDate: "2009-01-01",
-        },
-      ],
-      personal: {
-        name: "John Doe",
-        bio: "Hi I'm Joe Doe and I like coding!",
-        phone: "+123 456 789",
-        email: "johndoe@gmail.com",
-      },
-    };
-  }
+function Form(props) {
+  const [experiences, setExperiences] = useState([
+    {
+      id: uniqid(),
+      company: "Microsoft",
+      position: "Senior Software Engineer",
+      jobDesc: "Built large scalable projects for over 10million users.",
+      startDate: "2010-01-01",
+      endDate: "2015-01-01",
+    },
+  ]);
 
-  addExperience = () => {
+  const [personal, setPersonal] = useState({
+    name: "John Doe",
+    bio: "Hi I'm Joe Doe and I like coding!",
+    phone: "+123 456 789",
+    email: "johndoe@gmail.com",
+  });
+
+  const [educations, setEducations] = useState([
+    {
+      school: "University of Oxford",
+      degree: "Computer Science",
+      startDate: "2005-01-01",
+      endDate: "2009-01-01",
+    },
+  ]);
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const addExperience = () => {
     const newExperience = {
       id: uniqid(),
       company: "",
@@ -46,15 +50,10 @@ class Form extends Component {
       endDate: "",
     };
 
-    this.setState((prevState) => {
-      return {
-        experiences: [...prevState.experiences, newExperience],
-      };
-    });
-    console.log(this.state.experiences);
+    setExperiences([...experiences, newExperience]);
   };
 
-  addEducation = () => {
+  const addEducation = () => {
     const newEducation = {
       id: uniqid(),
       school: "",
@@ -63,121 +62,97 @@ class Form extends Component {
       endDate: "",
     };
 
-    this.setState((prevState) => {
-      return {
-        educations: [...prevState.educations, newEducation],
-      };
-    });
+    setEducations([...educations, newEducation]);
   };
 
-  deleteExperience = (id) => {
-    this.setState((prevState) => {
-      //keep every element except target element
-      const experiences = prevState.experiences.filter((experience) => experience.id !== id);
-      return {
-        experiences: experiences,
-      };
-    });
+  const deleteExperience = (id) => {
+    setExperiences((prev) => prev.filter((experience) => experience.id !== id));
   };
 
-  deleteEducation = (id) => {
-    this.setState((prevState) => {
-      //keep every element except target element
-      const educations = prevState.educations.filter((education) => education.id !== id);
-      return {
-        educations: educations,
-      };
-    });
+  const deleteEducation = (id) => {
+    const temp_educations = educations.filter((education) => education.id !== id);
+    setEducations(temp_educations);
   };
 
-  handleChangePersonal = (e) => {
+  const handleChangePersonal = (e) => {
     const { id, value } = e.target;
-    this.setState((prevState) => ({
-      personal: {
-        ...prevState.personal,
-        [id]: value,
-      },
-    }));
+    setPersonal({ ...personal, [id]: value });
   };
 
-  handleChangeExperience = (e, id) => {
+  const handleChangeExperience = (e, id) => {
     const { name, value } = e.target;
 
-    this.setState((prevState) => {
-      const experiences = prevState.experiences.map((experience) => {
-        if (experience.id === id) {
-          experience[name] = value;
-        }
-        return experience;
-      });
-      return {
-        experiences: experiences,
-      };
+    const temp_experiences = experiences.map((experience) => {
+      if (experience.id === id) {
+        experience[name] = value;
+      }
+      return experience;
     });
+
+    setExperiences(temp_experiences);
   };
 
-  handleChangeEducation = (e, id) => {
+  const handleChangeEducation = (e, id) => {
     const { name, value } = e.target;
 
-    this.setState((prevState) => {
-      const educations = prevState.educations.map((education) => {
-        if (education.id === id) {
-          education[name] = value;
-        }
-        return education;
-      });
-      return {
-        educations: educations,
-      };
+    const temp_educations = educations.map((education) => {
+      if (education.id === id) {
+        education[name] = value;
+      }
+      return education;
     });
+    setEducations(temp_educations);
   };
 
-  render() {
-    const { personal, experiences, educations } = this.state;
-    return (
-      <div className="CV">
-        <form className="cv-form" onSubmit={this.handleSubmit}>
-          <Personal handleChange={this.handleChangePersonal} personal={personal} />
-          <fieldset>
-            <legend>Job Experience</legend>
-            {experiences.map((experience) => {
-              return (
-                <Experience
-                  key={experience.id}
-                  handleChange={this.handleChangeExperience}
-                  deleteExperience={this.deleteExperience}
-                  experience={experience}
-                />
-              );
-            })}
-            <button className="btn" type="button" onClick={this.addExperience}>
-              Add Experience
-            </button>
-          </fieldset>
+  return (
+    <div className="CV">
+      <form className="cv-form">
+        <Personal handleChange={handleChangePersonal} personal={personal} />
+        <fieldset>
+          <legend>Job Experience</legend>
+          {experiences.map((experience) => {
+            return (
+              <Experience
+                key={experience.id}
+                handleChange={handleChangeExperience}
+                deleteExperience={deleteExperience}
+                experience={experience}
+              />
+            );
+          })}
+          <button className="btn" type="button" onClick={addExperience}>
+            Add Experience
+          </button>
+        </fieldset>
 
-          <fieldset>
-            <legend>Education</legend>
-            {educations.map((education, index) => {
-              return (
-                <Education
-                  key={index}
-                  handleChange={this.handleChangeEducation}
-                  education={education}
-                  deleteEducation={this.deleteEducation}
-                />
-              );
-            })}
-            <button type="button" className="btn" onClick={this.addEducation}>
-              Add Education
-            </button>
-          </fieldset>
-
-          {/* <button className="btn">Create CV</button> */}
-        </form>
-        <CV {...this.state} />
-      </div>
-    );
-  }
+        <fieldset>
+          <legend>Education</legend>
+          {educations.map((education, index) => {
+            return (
+              <Education
+                key={index}
+                handleChange={handleChangeEducation}
+                education={education}
+                deleteEducation={deleteEducation}
+              />
+            );
+          })}
+          <button type="button" className="btn" onClick={addEducation}>
+            Add Education
+          </button>
+        </fieldset>
+        <button type="button" className="btn" onClick={handlePrint}>
+          Generate PDF
+        </button>
+      </form>
+      <GeneralPreview
+        personal={personal}
+        educations={educations}
+        experiences={experiences}
+        ref={componentRef}
+      />
+    </div>
+  );
 }
 
 export default Form;
