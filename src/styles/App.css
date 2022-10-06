@@ -90,6 +90,12 @@ input {
 
 /* CV RENDERED INFO */
 
+@media print {
+  .cv-info {
+    height: 100vh;
+  }
+}
+
 .cv-info {
   display: flex;
   flex-direction: column;

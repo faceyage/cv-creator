@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+
 import GeneralPreview from "../Preview/GeneralPreview";
 import Personal from "./Fieldsets/Personal";
 import Education from "./Fieldsets/Education";
@@ -32,6 +34,11 @@ function Form(props) {
       endDate: "2009-01-01",
     },
   ]);
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const addExperience = () => {
     const newExperience = {
@@ -134,8 +141,16 @@ function Form(props) {
             Add Education
           </button>
         </fieldset>
+        <button type="button" className="btn" onClick={handlePrint}>
+          Generate PDF
+        </button>
       </form>
-      <GeneralPreview personal={personal} educations={educations} experiences={experiences} />
+      <GeneralPreview
+        personal={personal}
+        educations={educations}
+        experiences={experiences}
+        ref={componentRef}
+      />
     </div>
   );
 }
