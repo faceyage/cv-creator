@@ -1,23 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Input extends Component {
-  render() {
-    const { type, id, label, required, value, handleChange } = this.props;
+function Input(props) {
+  const { type, id, label, required, value, handleChange } = props;
 
-    return (
-      <div className="inputWrapper">
-        <label> {label} </label>
-        <input
-          type={type}
-          id={id}
-          name={id}
-          value={value}
-          onChange={handleChange}
-          required={required}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="inputWrapper">
+      <label> {label} </label>
+      <input
+        type={type}
+        id={id}
+        name={id}
+        value={value}
+        onChange={handleChange}
+        required={required}
+      />
+    </div>
+  );
 }
 
 Input.defaultProps = {
