@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CV from "../CV";
+import GeneralPreview from "../Preview/GeneralPreview";
 import Personal from "./Fieldsets/Personal";
 import Education from "./Fieldsets/Education";
 import Experience from "./Fieldsets/Experience";
@@ -16,12 +16,14 @@ function Form(props) {
       endDate: "2015-01-01",
     },
   ]);
+
   const [personal, setPersonal] = useState({
     name: "John Doe",
     bio: "Hi I'm Joe Doe and I like coding!",
     phone: "+123 456 789",
     email: "johndoe@gmail.com",
   });
+
   const [educations, setEducations] = useState([
     {
       school: "University of Oxford",
@@ -133,7 +135,7 @@ function Form(props) {
           </button>
         </fieldset>
       </form>
-      <CV personal={personal} educations={educations} experiences={experiences} />
+      <GeneralPreview personal={personal} educations={educations} experiences={experiences} />
     </div>
   );
 }
